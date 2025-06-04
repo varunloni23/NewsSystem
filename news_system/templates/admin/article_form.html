@@ -1,0 +1,280 @@
+{% extends 'admin/layout.html' %}
+
+{% block title %}{{ 'Edit Article' if article else 'New Article' }} - Luxury News{% endblock %}
+
+{% block extra_css %}
+<link href="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.css" rel="stylesheet">
+<style>
+    .ck-editor__editable {
+        min-height: 400px;
+    }
+    
+    .image-preview {
+        max-width: 100%;
+        height: auto;
+        margin-top: var(--spacing-sm);
+        border-radius: 4px;
+        display: none;
+    }
+    
+    .current-image {
+        max-width: 100%;
+        height: auto;
+        margin-top: var(--spacing-sm);
+        border-radius: 4px;
+    }
+    
+    .article-form-container {
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 30px;
+    }
+    
+    .article-main-column {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .article-side-column {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .panel {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: var(--spacing-md);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .panel-title {
+        font-size: 1.2rem;
+        margin-top: 0;
+        margin-bottom: var(--spacing-md);
+        padding-bottom: var(--spacing-sm);
+        border-bottom: 1px solid var(--light-gray);
+    }
+    
+    .create-article-btn {
+        width: 100%;
+        padding: 15px 0;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        background-color: #d4af37;
+        color: #0a1128;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 16px;
+        text-align: center;
+        margin-top: 15px;
+    }
+    
+    .create-article-btn:hover {
+        background-color: #e9d18b;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .btn-block {
+        display: block;
+        width: 100%;
+    }
+    
+    .form-actions {
+        margin-top: var(--spacing-md);
+    }
+    
+    @media (max-width: 992px) {
+        .article-form-container {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1 class="admin-title">{{ 'Edit Article' if article else 'New Article' }}</h1>
+    <div class="admin-actions">
+        <a href="{{ url_for('admin_articles') }}" class="btn">
+            <i class="fas fa-arrow-left"></i> Back to Articles
+        </a>
+    </div>
+</div>
+
+<form id="articleForm" method="post" enctype="multipart/form-data" action="{{ url_for('admin_edit_article', article_id=article.id) if article else url_for('admin_new_article') }}">
+    <div class="article-form-container">
+        <!-- Main Column (Left) -->
+        <div class="article-main-column">
+            <!-- Title Panel -->
+            <div class="panel">
+                <h3 class="panel-title">Article Content</h3>
+                <div class="form-group">
+                    <label for="title" class="form-label">Title</label>
+                    <input type="text" id="title" name="title" class="form-control" value="{{ article.title if article else '' }}" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subtitle" class="form-label">Subtitle (Optional)</label>
+                    <input type="text" id="subtitle" name="subtitle" class="form-control" value="{{ article.subtitle if article and article.subtitle else '' }}">
+                </div>
+                
+                <div class="form-group">
+                    <label for="content" class="form-label">Content</label>
+                    <textarea id="content" name="content" class="form-control" required>{{ article.content if article else '' }}</textarea>
+                </div>
+            </div>
+            
+            <!-- Tags Panel -->
+            <div class="panel">
+                <h3 class="panel-title">SEO & Tags</h3>
+                <div class="form-group">
+                    <label for="tags" class="form-label">Tags (Comma separated)</label>
+                    <input type="text" id="tags" name="tags" class="form-control" value="{{ article.tags if article and article.tags else '' }}" placeholder="news, technology, finance">
+                </div>
+            </div>
+        </div>
+        
+        <!-- Side Column (Right) -->
+        <div class="article-side-column">
+            <!-- Publish Panel -->
+            <div class="panel">
+                <h3 class="panel-title">Publish</h3>
+                <div class="form-group">
+                    <label for="status" class="form-label">Status</label>
+                    <select id="status" name="status" class="form-control" required>
+                        <option value="draft" {% if article and article.status == 'draft' %}selected{% elif not article %}{% endif %}>Draft</option>
+                        <option value="published" {% if article and article.status == 'published' %}selected{% elif not article %}selected{% endif %}>Published</option>
+                        <option value="archived" {% if article and article.status == 'archived' %}selected{% endif %}>Archived</option>
+                    </select>
+                </div>
+                
+                <div class="form-group form-check">
+                    <input type="checkbox" id="featured" name="featured" value="1" class="form-check-input" {% if article and article.featured %}checked{% endif %}>
+                    <label for="featured" class="form-check-label">Featured Article</label>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-gold btn-block create-article-btn" onclick="submitArticleForm();">
+                        {{ 'UPDATE ARTICLE' if article else 'CREATE ARTICLE' }}
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Category Panel -->
+            <div class="panel">
+                <h3 class="panel-title">Category</h3>
+                <div class="form-group">
+                    <select id="category_id" name="category_id" class="form-control" required>
+                        <option value="">Select a category</option>
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if article and article.category_id == category.id %}selected{% endif %}>
+                                {{ category.name }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            
+            <!-- Featured Image Panel -->
+            <div class="panel">
+                <h3 class="panel-title">Featured Image</h3>
+                <div class="form-group">
+                    <input type="file" id="image" name="image" class="form-control" accept="image/*">
+                    <small class="form-text">Recommended size: 1200x800 pixels. Maximum size: 2MB.</small>
+                </div>
+                
+                {% if article and article.image %}
+                    <div class="current-image-container">
+                        <p>Current image:</p>
+                        <img src="{{ url_for('static', filename='images/uploads/' + article.image) }}" alt="{{ article.title }}" class="current-image">
+                    </div>
+                {% endif %}
+                
+                <div class="image-preview-container">
+                    <img id="image-preview" class="image-preview" alt="Image Preview">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.ckeditor.com/ckeditor5/38.0.1/classic/ckeditor.js"></script>
+<script>
+    let editor;
+    
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('DOM loaded');
+        
+        // Initialize rich text editor
+        ClassicEditor
+            .create(document.querySelector('#content'), {
+                toolbar: ['heading', '|', 'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote', 'insertTable', 'undo', 'redo'],
+                placeholder: 'Write your article content here...'
+            })
+            .then(newEditor => {
+                console.log('Editor initialized');
+                editor = newEditor;
+            })
+            .catch(error => {
+                console.error('Editor error:', error);
+            });
+        
+        // Image preview
+        const imageInput = document.getElementById('image');
+        const imagePreview = document.getElementById('image-preview');
+        
+        if (imageInput && imagePreview) {
+            imageInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const reader = new FileReader();
+                    
+                    reader.onload = function(e) {
+                        imagePreview.style.display = 'block';
+                        imagePreview.src = e.target.result;
+                    };
+                    
+                    reader.readAsDataURL(this.files[0]);
+                }
+            });
+        }
+    });
+    
+    function submitArticleForm() {
+        console.log('Submit function called');
+        
+        // Update CKEditor content
+        if (editor) {
+            console.log('Updating editor content');
+            const contentField = document.querySelector('#content');
+            contentField.value = editor.getData();
+        }
+        
+        // Form validation
+        const form = document.getElementById('articleForm');
+        const title = document.getElementById('title').value;
+        const content = document.getElementById('content').value;
+        const category = document.getElementById('category_id').value;
+        
+        console.log('Title:', title);
+        console.log('Content length:', content.length);
+        console.log('Category:', category);
+        
+        if (!title || !content || !category) {
+            console.error('Validation failed');
+            alert('Please fill in all required fields');
+            return false;
+        }
+        
+        console.log('Form submitting...');
+        // No need to call form.submit() - let the natural form submission happen
+        return true;
+    }
+</script>
+{% endblock %} 

@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Luxury News{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="container">
+        <div class="auth-container">
+            <div class="auth-content">
+                <h1 class="auth-title fade-in">Create Account</h1>
+                <p class="auth-subtitle fade-in">Join Luxury News today</p>
+                
+                <form method="post" action="{{ url_for('register') }}" class="auth-form fade-in">
+                    <div class="form-group">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" id="username" name="username" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" id="email" name="email" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" id="password" name="password" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" id="confirm_password" name="confirm_password" class="form-control" required>
+                    </div>
+                    
+                    <div class="form-group form-check">
+                        <input type="checkbox" id="terms" name="terms" class="form-check-input" required>
+                        <label for="terms" class="form-check-label">I agree to the <a href="#">Terms and Conditions</a></label>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-gold btn-block">Register</button>
+                </form>
+                
+                <div class="auth-links fade-in">
+                    <p>Already have an account? <a href="{{ url_for('login') }}">Login</a></p>
+                </div>
+            </div>
+            
+            <div class="auth-image">
+                <img src="{{ url_for('static', filename='images/register-image.jpg') }}" alt="Register">
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .auth-section {
+        padding: var(--spacing-xl) 0;
+        min-height: calc(100vh - 200px);
+        display: flex;
+        align-items: center;
+    }
+    
+    .auth-container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+        background-color: var(--white);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .auth-content {
+        padding: var(--spacing-xl);
+    }
+    
+    .auth-title {
+        font-size: 2.5rem;
+        margin-bottom: var(--spacing-xs);
+        color: var(--navy);
+    }
+    
+    .auth-subtitle {
+        color: var(--gray);
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .auth-form {
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .form-check {
+        display: flex;
+        align-items: center;
+    }
+    
+    .form-check-input {
+        margin-right: var(--spacing-xs);
+    }
+    
+    .form-check-label {
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+    
+    .form-check-label a {
+        color: var(--gold);
+        font-weight: 600;
+    }
+    
+    .btn-block {
+        width: 100%;
+        margin-top: var(--spacing-md);
+    }
+    
+    .auth-links {
+        text-align: center;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+    
+    .auth-links a {
+        color: var(--gold);
+        font-weight: 600;
+    }
+    
+    .auth-image {
+        height: 100%;
+        overflow: hidden;
+    }
+    
+    .auth-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    @media (max-width: 992px) {
+        .auth-container {
+            grid-template-columns: 1fr;
+        }
+        
+        .auth-image {
+            display: none;
+        }
+    }
+</style>
+{% endblock %} 

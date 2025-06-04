@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+
+{% block title %}Luxury News - Premium News Experience{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="container hero-content">
+        <h1 class="fade-in">Discover News in Luxury</h1>
+        <p class="fade-in">Stay informed with our curated collection of premium articles, delivered with elegance and sophistication.</p>
+        <a href="{{ url_for('articles') }}" class="hero-btn fade-in">Explore Articles</a>
+    </div>
+</section>
+
+<!-- Featured Articles -->
+<section class="featured">
+    <div class="container">
+        <h2 class="section-title fade-in">Featured Articles</h2>
+        <div class="articles-grid">
+            {% for article in featured_articles %}
+                <div class="article-card fade-in">
+                    {% if article.image %}
+                        <img src="{{ url_for('static', filename='images/uploads/' + article.image) }}" alt="{{ article.title }}" class="article-image">
+                    {% else %}
+                        <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="{{ article.title }}" class="article-image">
+                    {% endif %}
+                    <div class="article-content">
+                        <span class="article-category">{{ article.category_name }}</span>
+                        <h3 class="article-title">
+                            <a href="{{ url_for('article_detail', article_id=article.id) }}">{{ article.title }}</a>
+                        </h3>
+                        <p class="article-excerpt">{{ article.content[:150] }}{% if article.content|length > 150 %}...{% endif %}</p>
+                        <div class="article-meta">
+                            <div class="article-author">
+                                <img src="{{ url_for('static', filename='images/user.png') }}" alt="{{ article.author_name }}">
+                                <span>{{ article.author_name }}</span>
+                            </div>
+                            <div class="article-date">
+                                {{ article.created_at.strftime('%b %d, %Y') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Categories -->
+<section class="categories">
+    <div class="container">
+        <h2 class="section-title fade-in">Browse by Category</h2>
+        <div class="categories-grid">
+            {% for category in categories %}
+                <div class="category-card fade-in">
+                    <div class="category-icon">
+                        {% if category.name == 'Politics' %}
+                            <i class="fas fa-landmark"></i>
+                        {% elif category.name == 'Business' %}
+                            <i class="fas fa-chart-line"></i>
+                        {% elif category.name == 'Technology' %}
+                            <i class="fas fa-microchip"></i>
+                        {% elif category.name == 'Sports' %}
+                            <i class="fas fa-futbol"></i>
+                        {% elif category.name == 'Entertainment' %}
+                            <i class="fas fa-film"></i>
+                        {% elif category.name == 'Health' %}
+                            <i class="fas fa-heartbeat"></i>
+                        {% else %}
+                            <i class="fas fa-newspaper"></i>
+                        {% endif %}
+                    </div>
+                    <h3 class="category-title">{{ category.name }}</h3>
+                    <p class="category-count">{{ category.article_count }} Articles</p>
+                    <a href="{{ url_for('articles', category=category.id) }}" class="btn btn-sm">View Articles</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text fade-in">
+                <h2>About Luxury News</h2>
+                <p>Welcome to Luxury News, where elegance meets information. We believe that staying informed should be a premium experience, which is why we've created a news platform that combines insightful reporting with sophisticated design.</p>
+                <p>Our team of dedicated journalists and editors work tirelessly to bring you the most important stories from around the world, presented in a way that respects your intelligence and your time.</p>
+                <a href="{{ url_for('about') }}" class="btn btn-gold">Learn More</a>
+            </div>
+            <div class="about-image fade-in">
+                <img src="{{ url_for('static', filename='images/about-home.jpg') }}" alt="About Luxury News">
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+    <div class="container newsletter-container">
+        <h2 class="fade-in">Subscribe to Our Newsletter</h2>
+        <p class="fade-in">Stay updated with our latest articles and news delivered directly to your inbox.</p>
+        <form class="newsletter-form fade-in">
+            <input type="email" placeholder="Your email address" required>
+            <button type="submit" class="btn btn-gold">Subscribe</button>
+        </form>
+    </div>
+</section>
+{% endblock %} 

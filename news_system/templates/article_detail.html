@@ -1,0 +1,266 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ article.title }} - Luxury News{% endblock %}
+
+{% block content %}
+<article class="article-detail">
+    <div class="container">
+        <div class="article-header fade-in">
+            <span class="article-category">{{ article.category_name }}</span>
+            <h1 class="article-detail-title">{{ article.title }}</h1>
+            <div class="article-detail-meta">
+                <div class="article-author">
+                    <img src="{{ url_for('static', filename='images/user.png') }}" alt="{{ article.author_name }}">
+                    <span>{{ article.author_name }}</span>
+                </div>
+                <div class="article-date">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>{{ article.created_at.strftime('%b %d, %Y') }}</span>
+                </div>
+                <div class="article-views">
+                    <i class="far fa-eye"></i>
+                    <span>{{ article.views }} views</span>
+                </div>
+            </div>
+        </div>
+        
+        {% if article.image %}
+            <img src="{{ url_for('static', filename='images/uploads/' + article.image) }}" alt="{{ article.title }}" class="article-detail-image fade-in">
+        {% else %}
+            <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="{{ article.title }}" class="article-detail-image fade-in">
+        {% endif %}
+        
+        <div class="article-detail-content fade-in">
+            {{ article.content|safe }}
+        </div>
+        
+        <div class="article-tags">
+            <span class="tag-label">Category:</span>
+            <a href="{{ url_for('articles', category=article.category_id) }}" class="article-tag">{{ article.category_name }}</a>
+        </div>
+        
+        <div class="article-share">
+            <span class="share-label">Share:</span>
+            <div class="share-buttons">
+                <a href="#" class="share-button" title="Share on Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="#" class="share-button" title="Share on Twitter">
+                    <i class="fab fa-twitter"></i>
+                </a>
+                <a href="#" class="share-button" title="Share on LinkedIn">
+                    <i class="fab fa-linkedin-in"></i>
+                </a>
+                <a href="#" class="share-button" title="Share via Email">
+                    <i class="far fa-envelope"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- Related Articles -->
+<section class="related-articles">
+    <div class="container">
+        <h2 class="section-title fade-in">Related Articles</h2>
+        
+        {% if related_articles %}
+            <div class="articles-grid">
+                {% for article in related_articles %}
+                    <div class="article-card fade-in">
+                        {% if article.image %}
+                            <img src="{{ url_for('static', filename='images/uploads/' + article.image) }}" alt="{{ article.title }}" class="article-image">
+                        {% else %}
+                            <img src="{{ url_for('static', filename='images/placeholder.jpg') }}" alt="{{ article.title }}" class="article-image">
+                        {% endif %}
+                        <div class="article-content">
+                            <span class="article-category">{{ article.category_name }}</span>
+                            <h3 class="article-title">
+                                <a href="{{ url_for('article_detail', article_id=article.id) }}">{{ article.title }}</a>
+                            </h3>
+                            <p class="article-excerpt">{{ article.content[:150] }}{% if article.content|length > 150 %}...{% endif %}</p>
+                            <div class="article-meta">
+                                <div class="article-author">
+                                    <img src="{{ url_for('static', filename='images/user.png') }}" alt="{{ article.author_name }}">
+                                    <span>{{ article.author_name }}</span>
+                                </div>
+                                <div class="article-date">
+                                    {{ article.created_at.strftime('%b %d, %Y') }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-related fade-in">No related articles found.</p>
+        {% endif %}
+    </div>
+</section>
+
+<style>
+    .article-detail {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .article-header {
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .article-category {
+        display: inline-block;
+        background-color: var(--gold-light);
+        color: var(--navy);
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 4px 12px;
+        border-radius: 20px;
+        margin-bottom: var(--spacing-sm);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .article-detail-title {
+        font-size: 2.5rem;
+        margin-bottom: var(--spacing-md);
+        line-height: 1.2;
+    }
+    
+    .article-detail-meta {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        color: var(--gray);
+        font-size: 0.9rem;
+    }
+    
+    .article-detail-meta > div {
+        margin-right: var(--spacing-lg);
+        margin-bottom: var(--spacing-sm);
+        display: flex;
+        align-items: center;
+    }
+    
+    .article-detail-meta i {
+        margin-right: 5px;
+    }
+    
+    .article-author {
+        display: flex;
+        align-items: center;
+    }
+    
+    .article-author img {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        margin-right: 8px;
+    }
+    
+    .article-detail-image {
+        width: 100%;
+        max-height: 500px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .article-detail-content {
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .article-detail-content p {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .article-tags {
+        display: flex;
+        align-items: center;
+        margin-bottom: var(--spacing-md);
+        flex-wrap: wrap;
+    }
+    
+    .tag-label {
+        font-weight: 600;
+        margin-right: var(--spacing-sm);
+        color: var(--navy);
+    }
+    
+    .article-tag {
+        display: inline-block;
+        background-color: var(--off-white);
+        padding: 5px 12px;
+        border-radius: 20px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        font-size: 0.9rem;
+        transition: all var(--transition-fast);
+    }
+    
+    .article-tag:hover {
+        background-color: var(--gold-light);
+        color: var(--navy);
+    }
+    
+    .article-share {
+        display: flex;
+        align-items: center;
+        margin-top: var(--spacing-lg);
+        padding-top: var(--spacing-md);
+        border-top: 1px solid var(--gray-light);
+        flex-wrap: wrap;
+    }
+    
+    .share-label {
+        font-weight: 600;
+        margin-right: var(--spacing-sm);
+        color: var(--navy);
+    }
+    
+    .share-buttons {
+        display: flex;
+    }
+    
+    .share-button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        background-color: var(--off-white);
+        border-radius: 50%;
+        margin-right: 10px;
+        color: var(--navy);
+        transition: all var(--transition-fast);
+    }
+    
+    .share-button:hover {
+        background-color: var(--gold);
+        color: var(--white);
+        transform: translateY(-3px);
+    }
+    
+    .no-related {
+        text-align: center;
+        color: var(--gray);
+        padding: var(--spacing-md) 0;
+    }
+    
+    @media (max-width: 768px) {
+        .article-detail-title {
+            font-size: 2rem;
+        }
+        
+        .article-detail-meta {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .article-detail-meta > div {
+            margin-bottom: var(--spacing-xs);
+        }
+    }
+</style>
+{% endblock %}

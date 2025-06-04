@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin - Luxury News{% endblock %}</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Admin Layout -->
+    <div class="admin-container">
+        <!-- Sidebar -->
+        <aside class="admin-sidebar">
+            <a href="{{ url_for('admin_dashboard') }}" class="admin-logo">Luxury<span>News</span></a>
+            
+            <ul class="admin-nav">
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin_dashboard') }}" class="admin-nav-link {% if request.path == url_for('admin_dashboard') %}active{% endif %}">
+                        <i class="fas fa-tachometer-alt"></i> Dashboard
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin_articles') }}" class="admin-nav-link {% if request.path == url_for('admin_articles') %}active{% endif %}">
+                        <i class="fas fa-newspaper"></i> Articles
+                    </a>
+                </li>
+                {% if current_user.role == 'admin' %}
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin_categories') }}" class="admin-nav-link {% if request.path == url_for('admin_categories') %}active{% endif %}">
+                        <i class="fas fa-folder"></i> Categories
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('admin_users') }}" class="admin-nav-link {% if request.path == url_for('admin_users') %}active{% endif %}">
+                        <i class="fas fa-users"></i> Users
+                    </a>
+                </li>
+                {% endif %}
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('index') }}" class="admin-nav-link">
+                        <i class="fas fa-home"></i> Back to Site
+                    </a>
+                </li>
+                <li class="admin-nav-item">
+                    <a href="{{ url_for('logout') }}" class="admin-nav-link">
+                        <i class="fas fa-sign-out-alt"></i> Logout
+                    </a>
+                </li>
+            </ul>
+        </aside>
+        
+        <!-- Mobile Toggle -->
+        <div class="admin-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+        
+        <!-- Main Content -->
+        <main class="admin-content">
+            <!-- Flash Messages -->
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-messages">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">
+                                {{ message }}
+                                <button class="flash-close">&times;</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+            
+            <!-- Admin Content -->
+            <div class="admin-content-inner">
+                {% block admin_content %}{% endblock %}
+            </div>
+        </main>
+    </div>
+    
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

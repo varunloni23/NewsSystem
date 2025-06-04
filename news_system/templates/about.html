@@ -1,0 +1,378 @@
+{% extends 'base.html' %}
+
+{% block title %}About - Luxury News{% endblock %}
+
+{% block content %}
+<!-- Page Header -->
+<section class="page-header" style="background-color: var(--navy); color: var(--white); padding: var(--spacing-lg) 0;">
+    <div class="container">
+        <h1 class="fade-in">About Luxury News</h1>
+        <p class="fade-in">Your premier source for the latest news and insights.</p>
+    </div>
+</section>
+
+<!-- About Content -->
+<section class="about-page">
+    <div class="container">
+        <div class="about-section fade-in">
+            <h2>Our Story</h2>
+            <div class="about-content">
+                <div class="about-text">
+                    <p>Founded in 2023, Luxury News was born from a vision to transform how people consume news. In a world of clickbait headlines and sensationalist reporting, we saw the need for a news platform that prioritizes quality, depth, and elegance.</p>
+                    <p>Our founder, a veteran journalist with over two decades of experience, assembled a team of like-minded professionals who share a passion for exceptional journalism and sophisticated design. Together, they've created a news experience that stands apart from the noise of traditional media.</p>
+                </div>
+                <div class="about-image">
+                    <img src="{{ url_for('static', filename='images/about-story.jpg') }}" alt="Our Story">
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section fade-in">
+            <h2>Our Mission</h2>
+            <div class="about-content reverse">
+                <div class="about-text">
+                    <p>At Luxury News, our mission is to deliver news with integrity, depth, and sophistication. We believe that staying informed shouldn't feel like a chore, but rather an enriching experience that broadens perspectives and deepens understanding.</p>
+                    <p>We're committed to:</p>
+                    <ul>
+                        <li>Providing accurate, well-researched reporting</li>
+                        <li>Presenting diverse perspectives on complex issues</li>
+                        <li>Delivering content in an elegant, user-friendly format</li>
+                        <li>Respecting our readers' intelligence and time</li>
+                        <li>Maintaining editorial independence and journalistic integrity</li>
+                    </ul>
+                </div>
+                <div class="about-image">
+                    <img src="{{ url_for('static', filename='images/about-mission.jpg') }}" alt="Our Mission">
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section fade-in">
+            <h2>Our Team</h2>
+            <p class="team-intro">Luxury News is powered by a diverse team of journalists, editors, and digital media professionals who are passionate about quality journalism and elegant design.</p>
+            
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="{{ url_for('static', filename='images/team-1.jpg') }}" alt="Team Member">
+                    </div>
+                    <h3>Alexandra Reynolds</h3>
+                    <p class="team-role">Founder & Editor-in-Chief</p>
+                    <p class="team-bio">With over 20 years of experience in journalism, Alexandra has worked for some of the world's most prestigious news organizations before founding Luxury News.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="{{ url_for('static', filename='images/team-2.jpg') }}" alt="Team Member">
+                    </div>
+                    <h3>Marcus Chen</h3>
+                    <p class="team-role">Managing Editor</p>
+                    <p class="team-bio">Marcus brings 15 years of editorial expertise, having previously served as an editor for major international publications covering politics and global affairs.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="{{ url_for('static', filename='images/team-3.jpg') }}" alt="Team Member">
+                    </div>
+                    <h3>Sophia Williams</h3>
+                    <p class="team-role">Technology Editor</p>
+                    <p class="team-bio">A former Silicon Valley insider, Sophia has spent a decade covering technological innovations and their impact on society and business.</p>
+                </div>
+                
+                <div class="team-member">
+                    <div class="team-image">
+                        <img src="{{ url_for('static', filename='images/team-4.jpg') }}" alt="Team Member">
+                    </div>
+                    <h3>James Rodriguez</h3>
+                    <p class="team-role">Creative Director</p>
+                    <p class="team-bio">With a background in luxury magazine design, James oversees the visual identity of Luxury News, ensuring a premium aesthetic across all platforms.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section fade-in">
+            <h2>Our Approach</h2>
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Accuracy</h3>
+                    <p>We verify all information through multiple sources before publication, ensuring our reporting is factual and reliable.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h3>Balance</h3>
+                    <p>We present diverse perspectives on complex issues, helping readers form their own informed opinions.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3>Depth</h3>
+                    <p>We go beyond surface-level reporting to provide context, analysis, and insight on important stories.</p>
+                </div>
+                
+                <div class="value-card">
+                    <div class="value-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3>Elegance</h3>
+                    <p>We believe in the power of beautiful design and clear communication to enhance the news experience.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="about-section fade-in">
+            <h2>Contact Us</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <p>We welcome your feedback, questions, and suggestions. Feel free to reach out to us through any of the following channels:</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>info@luxurynews.com</span>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>123 Luxury Street, Suite 100<br>New York, NY 10001</span>
+                        </div>
+                    </div>
+                    
+                    <div class="social-links">
+                        <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form>
+                        <div class="form-group">
+                            <label for="name" class="form-label">Name</label>
+                            <input type="text" id="name" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" id="email" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="subject" class="form-label">Subject</label>
+                            <input type="text" id="subject" class="form-control" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message" class="form-label">Message</label>
+                            <textarea id="message" class="form-control" rows="5" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-gold">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .page-header {
+        text-align: center;
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .about-page {
+        padding: var(--spacing-xl) 0;
+    }
+    
+    .about-section {
+        margin-bottom: var(--spacing-xl);
+    }
+    
+    .about-section h2 {
+        text-align: center;
+        margin-bottom: var(--spacing-lg);
+        position: relative;
+    }
+    
+    .about-section h2::after {
+        content: '';
+        display: block;
+        width: 60px;
+        height: 3px;
+        background-color: var(--gold);
+        margin: var(--spacing-xs) auto 0;
+    }
+    
+    .about-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+        align-items: center;
+    }
+    
+    .about-content.reverse {
+        direction: rtl;
+    }
+    
+    .about-content.reverse .about-text {
+        direction: ltr;
+    }
+    
+    .about-text p {
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .about-text ul {
+        margin-left: var(--spacing-md);
+        margin-bottom: var(--spacing-md);
+    }
+    
+    .about-text li {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .about-image {
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .about-image img {
+        width: 100%;
+        height: auto;
+        display: block;
+    }
+    
+    .team-intro {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto var(--spacing-lg);
+    }
+    
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: var(--spacing-lg);
+    }
+    
+    .team-member {
+        background-color: var(--white);
+        border-radius: 8px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+        transition: transform var(--transition-fast);
+    }
+    
+    .team-member:hover {
+        transform: translateY(-5px);
+    }
+    
+    .team-image {
+        height: 250px;
+        overflow: hidden;
+    }
+    
+    .team-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    
+    .team-member h3 {
+        margin: var(--spacing-sm) var(--spacing-sm) 0;
+        font-size: 1.2rem;
+    }
+    
+    .team-role {
+        color: var(--gold);
+        font-weight: 600;
+        margin: 0 var(--spacing-sm);
+        font-size: 0.9rem;
+    }
+    
+    .team-bio {
+        padding: 0 var(--spacing-sm) var(--spacing-sm);
+        font-size: 0.9rem;
+        color: var(--gray);
+    }
+    
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: var(--spacing-md);
+    }
+    
+    .value-card {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: var(--spacing-md);
+        text-align: center;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        transition: transform var(--transition-fast);
+    }
+    
+    .value-card:hover {
+        transform: translateY(-5px);
+    }
+    
+    .value-icon {
+        font-size: 2.5rem;
+        color: var(--gold);
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .value-card h3 {
+        margin-bottom: var(--spacing-xs);
+    }
+    
+    .contact-content {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: var(--spacing-lg);
+    }
+    
+    .contact-details {
+        margin: var(--spacing-md) 0;
+    }
+    
+    .contact-item {
+        display: flex;
+        align-items: flex-start;
+        margin-bottom: var(--spacing-sm);
+    }
+    
+    .contact-item i {
+        width: 20px;
+        margin-right: var(--spacing-sm);
+        color: var(--gold);
+    }
+    
+    @media (max-width: 992px) {
+        .about-content {
+            grid-template-columns: 1fr;
+        }
+        
+        .about-image {
+            margin-bottom: var(--spacing-md);
+        }
+        
+        .contact-content {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Luxury News{% endblock %}</title>
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon.ico') }}" type="image/x-icon">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container header-container">
+            <a href="{{ url_for('index') }}" class="logo">
+                <div class="logo-text">Luxury<span>News</span></div>
+            </a>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a href="{{ url_for('index') }}" class="nav-link {% if request.path == url_for('index') %}active{% endif %}">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('articles') }}" class="nav-link {% if request.path == url_for('articles') %}active{% endif %}">Articles</a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ url_for('about') }}" class="nav-link {% if request.path == url_for('about') %}active{% endif %}">About</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                        {% if current_user.role in ['admin', 'editor'] %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('admin_dashboard') }}" class="nav-link">Admin</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('logout') }}" class="nav-link">Logout</a>
+                        </li>
+                    {% else %}
+                        <li class="nav-item">
+                            <a href="{{ url_for('login') }}" class="nav-link {% if request.path == url_for('login') %}active{% endif %}">Login</a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ url_for('register') }}" class="nav-link {% if request.path == url_for('register') %}active{% endif %}">Register</a>
+                        </li>
+                    {% endif %}
+                </ul>
+                <button class="mobile-menu-btn">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="flash-message {{ category }}">
+                        <div class="container">
+                            {{ message }}
+                            <button class="flash-close">&times;</button>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container footer-container">
+            <div class="footer-section">
+                <div class="footer-logo">Luxury<span>News</span></div>
+                <p class="footer-about">
+                    Your premier source for the latest news and insights, delivered with elegance and sophistication.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-link"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-heading">Quick Links</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><a href="{{ url_for('index') }}">Home</a></li>
+                    <li class="footer-link"><a href="{{ url_for('articles') }}">Articles</a></li>
+                    <li class="footer-link"><a href="{{ url_for('about') }}">About</a></li>
+                    {% if not current_user.is_authenticated %}
+                        <li class="footer-link"><a href="{{ url_for('login') }}">Login</a></li>
+                        <li class="footer-link"><a href="{{ url_for('register') }}">Register</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-heading">Categories</h3>
+                <ul class="footer-links">
+                    {% for category in get_categories() %}
+                        <li class="footer-link">
+                            <a href="{{ url_for('articles', category=category.id) }}">{{ category.name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3 class="footer-heading">Contact Us</h3>
+                <ul class="footer-links">
+                    <li class="footer-link"><i class="fas fa-map-marker-alt"></i> 123 Luxury Street, Suite 100</li>
+                    <li class="footer-link"><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                    <li class="footer-link"><i class="fas fa-envelope"></i> info@luxurynews.com</li>
+                </ul>
+            </div>
+        </div>
+        <div class="container footer-bottom">
+            <p>&copy; {{ now.year }} LuxuryNews. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+</body>
+</html> 

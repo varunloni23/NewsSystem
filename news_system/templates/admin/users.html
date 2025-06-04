@@ -1,0 +1,88 @@
+{% extends 'admin/layout.html' %}
+
+{% block title %}Users - Admin - Luxury News{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1 class="admin-title">Users</h1>
+    <div class="admin-actions">
+        <!-- No new user button needed here -->
+    </div>
+</div>
+
+<div class="table-container">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Joined</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>
+                        <span class="role-badge role-{{ user.role }}">
+                            {{ user.role }}
+                        </span>
+                    </td>
+                    <td>{{ user.created_at.strftime('%b %d, %Y') }}</td>
+                    <td>
+                        <div class="table-actions">
+                            <a href="{{ url_for('admin_edit_user', user_id=user.id) }}" class="btn btn-sm btn-edit" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<style>
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .admin-title {
+        margin: 0;
+    }
+    
+    .admin-actions {
+        margin-left: auto;
+    }
+    
+    .role-badge {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        text-transform: capitalize;
+    }
+    
+    .role-admin {
+        background-color: var(--gold);
+        color: var(--navy);
+    }
+    
+    .role-editor {
+        background-color: #17a2b8;
+        color: white;
+    }
+    
+    .role-user {
+        background-color: #6c757d;
+        color: white;
+    }
+</style>
+{% endblock %} 

@@ -1,0 +1,65 @@
+{% extends 'admin/layout.html' %}
+
+{% block title %}{{ 'Edit Category' if category else 'New Category' }} - Luxury News{% endblock %}
+
+{% block admin_content %}
+<div class="admin-header">
+    <h1 class="admin-title">{{ 'Edit Category' if category else 'New Category' }}</h1>
+    <div class="admin-actions">
+        <a href="{{ url_for('admin_categories') }}" class="btn">
+            <i class="fas fa-arrow-left"></i> Back to Categories
+        </a>
+    </div>
+</div>
+
+<div class="form-container admin-form">
+    <form method="post" action="{{ url_for('admin_edit_category', category_id=category.id) if category else url_for('admin_new_category') }}">
+        <div class="form-group">
+            <label for="name" class="form-label">Name</label>
+            <input type="text" id="name" name="name" class="form-control" value="{{ category.name if category else '' }}" required>
+        </div>
+        
+        <div class="form-group">
+            <label for="description" class="form-label">Description</label>
+            <textarea id="description" name="description" class="form-control" rows="5">{{ category.description if category else '' }}</textarea>
+        </div>
+        
+        <div class="form-actions">
+            <button type="submit" class="btn btn-gold">
+                {{ 'Update Category' if category else 'Create Category' }}
+            </button>
+            <a href="{{ url_for('admin_categories') }}" class="btn">Cancel</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    .admin-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: var(--spacing-lg);
+    }
+    
+    .admin-title {
+        margin: 0;
+    }
+    
+    .admin-actions {
+        margin-left: auto;
+    }
+    
+    .admin-form {
+        background-color: var(--white);
+        border-radius: 8px;
+        padding: var(--spacing-lg);
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    }
+    
+    .form-actions {
+        margin-top: var(--spacing-lg);
+        display: flex;
+        gap: var(--spacing-sm);
+    }
+</style>
+{% endblock %} 
